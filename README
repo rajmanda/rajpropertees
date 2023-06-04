@@ -1,0 +1,57 @@
+Create mysql DB’s on docker - with Some data .
+
+https://phoenixnap.com/kb/mysql-docker-container
+https://phoenixnap.com/kb/how-to-create-a-table-in-mysq
+
+docker run --rm -d -e MYSQL_ROOT_PASSWORD=password -p 3325:3306 --name db1 mysql:5.7
+
+	SSH to Container -
+		get the Generated Root password.
+	Login to CLI:
+		mysql -uroot -ppassword
+
+		CREATE DATABASE movies;
+
+		USE movies;
+
+		CREATE TABLE movies(title VARCHAR(50) NOT NULL,genre VARCHAR(30) NOT NULL,director VARCHAR(60) NOT NULL,release_year INT NOT NULL,PRIMARY KEY(title));
+
+
+		INSERT INTO movies VALUE ("Joker", "psychological thriller", "Todd Phillips", 2019);
+
+		SELECT * from movies;
+—————————————————————————————————————————————————————-
+docker run --rm -d -e MYSQL_ROOT_PASSWORD=password -p 3326:3306 --name db2 mysql:5.7
+
+	SSH to Container -
+		get the Generated Root password.
+	Login to CLI:
+		mysql -uroot -ppassword
+
+		CREATE DATABASE cinemas;
+
+		USE cinemas;
+
+		CREATE TABLE cinemas(title VARCHAR(50) NOT NULL,genre VARCHAR(30) NOT NULL,director VARCHAR(60) NOT NULL,release_year INT NOT NULL,PRIMARY KEY(title));
+
+
+		INSERT INTO cinemas VALUE ("Joker", "psychological thriller", "Todd Phillips", 2019);
+
+		SELECT * from cinemas;
+
+
+——————————————————————————————————————————————————————
+Create Spring application with following dependencies .
+
+https://start.spring.io/
+Java
+maven
+SpringBoot 2.7.11
+jar
+java-11
+
+Dependencies :
+ Spring Web
+ Spring Data JDBC
+ MySql Driver
+ H2
