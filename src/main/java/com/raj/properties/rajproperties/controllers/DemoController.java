@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 @RestController
 @RequestMapping("/api")
 
@@ -27,60 +29,37 @@ public class DemoController {
     @Qualifier("h2JdbcTemplate")
     JdbcTemplate h2JdbcTemplate ;
 
-    @GetMapping("/helloCinemas")
+
+
+    @GetMapping("/db1")
     public String helloCinemas() {
 
-        String sqldb1 = "SELECT * FROM cinemas";
-        db2JdbcTemplate.query(sqldb1, (rs, rowNum) -> {
-            //int id = rs.getInt("id");
-            String name = rs.getString("title");
-            System.out.println( "FROM  DB1.MOVIES - title: " + name);
-            return null;
-        });
-        h2JdbcTemplate.execute("INSERT INTO counts (name) VALUES('DB1')");
-
-        String sqldb2 = "SELECT * FROM cinemas";
-        db2JdbcTemplate.query(sqldb2, (rs, rowNum) -> {
-            //int id = rs.getInt("id");
-            String name = rs.getString("title");
-            System.out.println( "FROM  DB2.CINEMAS - title: " + name);
-            return null;
-        });
-        h2JdbcTemplate.execute("INSERT INTO counts (name) VALUES('DB2')");
-
-        return "Cinema Added addded to db2 !";
-    }
-
-    @GetMapping("/helloMovies")
-    public String helloMovies() {
-
-
-//        movieRepository.saveAll(
-//                            Stream.of(
-//                                new Movie("Bahubali", "Mythological Thriller", "Rajamouli", 2010),
-//                                new Movie("RRR", "Mythological Thriller", "Rajamouli", 2022)
-//                            )
-//                            .collect(Collectors.toList()));
-        //System.out.println(dataSource.toString());
         String sqldb1 = "SELECT * FROM movies";
+        AtomicReference<String> name= new AtomicReference<>("");
         db1JdbcTemplate.query(sqldb1, (rs, rowNum) -> {
             //int id = rs.getInt("id");
-            String name = rs.getString("title");
+            name.set(rs.getString("title"));
             System.out.println( "FROM  DB1.MOVIES - title: " + name);
             return null;
         });
-        h2JdbcTemplate.execute("INSERT INTO counts (name) VALUES('DB1')");
+
+        h2JdbcTemplate.execute("INSERT INTO counts (name) VALUES('"+name+"')");
+        return "Title added to DB1.MOVIES  - " + name;
+    }
+
+    @GetMapping("/db2")
+    public String helloMovies() {
 
         String sqldb2 = "SELECT * FROM cinemas";
+        AtomicReference<String> name = new AtomicReference<>("");
         db2JdbcTemplate.query(sqldb2, (rs, rowNum) -> {
             //int id = rs.getInt("id");
-            String name = rs.getString("title");
+            name.set(rs.getString("title"));
             System.out.println( "FROM  DB2.CINEMAS - title: " + name);
             return null;
         });
-        h2JdbcTemplate.execute("INSERT INTO counts (name) VALUES('DB2')");
-
-        return "Movies Added to db1  !";
+        h2JdbcTemplate.execute("INSERT INTO counts (name) VALUES('"+name+"')");
+        return "Title added to DB2.CINEMAS  - " + name;
     }
 
     @GetMapping("/greet/{name}")

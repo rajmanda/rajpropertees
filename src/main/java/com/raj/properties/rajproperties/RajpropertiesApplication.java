@@ -16,6 +16,9 @@ public class RajpropertiesApplication implements CommandLineRunner {
 	JdbcTemplate h2JdbcTemplate ;
 
 	@Autowired
+	JdbcTemplate db1JdbcTemplate ;
+
+	@Autowired
 	DataSource h2DataSource;
 
 	public static void main(String[] args) {
@@ -33,5 +36,15 @@ public class RajpropertiesApplication implements CommandLineRunner {
 				+ "name VARCHAR(255) NOT NULL"
 				+ ")";
 		h2JdbcTemplate.execute(createTableSQL);
+
+//		String createPropertyTableSQL = "CREATE TABLE property ("
+//				+ "id int(3) unsigned zerofill not null auto_increment primary key,"
+//				+ "name VARCHAR(255) NOT NULL,"
+//				+ "address VARCHAR(255) NOT NULL"
+//				+ ")";
+//		db1JdbcTemplate.	execute(createPropertyTableSQL);
+
 	}
 }
+
+
