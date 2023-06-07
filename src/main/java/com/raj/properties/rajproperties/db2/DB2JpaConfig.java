@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
@@ -49,6 +51,7 @@ public class DB2JpaConfig {
                 .dataSource(db2DataSource)
                 .packages("com.raj.properties.rajproperties.db2.entities")
                 .persistenceUnit("db2")
+                .properties(hibernateProperties())
                 .build();
     }
 
@@ -63,5 +66,10 @@ public class DB2JpaConfig {
     @Bean(name = "db2JdbcTemplate")
     public JdbcTemplate db2JdbcTemplate(@Qualifier("db2DataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+    private Map hibernateProperties() {
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        properties.put("hibernate.hbm2ddl.auto", "create");
+        return properties;
     }
 }

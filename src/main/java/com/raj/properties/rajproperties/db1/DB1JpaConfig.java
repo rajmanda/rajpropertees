@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -16,6 +15,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -48,8 +50,9 @@ public class DB1JpaConfig {
         // Configure and return the EntityManagerFactory for db1
         return builder
                 .dataSource(db1DataSource)
-                .packages("com.raj.properties.rajproperties.db1.entities")
+                .packages("com.raj.properties.rajproperties.db1.models")
                 .persistenceUnit("db1")
+                .properties(hibernateProperties())
                 .build();
     }
 
@@ -64,5 +67,11 @@ public class DB1JpaConfig {
     @Bean(name = "db1JdbcTemplate")
     public JdbcTemplate db1JdbcTemplate(@Qualifier("db1DataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+
+    private Map hibernateProperties() {
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        //properties.put("hibernate.hbm2ddl.auto", "create");
+        return properties;
     }
 }

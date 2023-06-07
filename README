@@ -17,9 +17,12 @@ docker run --rm -d -e MYSQL_ROOT_PASSWORD=password -p 3325:3306 --name db1 mysql
 		CREATE TABLE movies(title VARCHAR(50) NOT NULL,genre VARCHAR(30) NOT NULL,director VARCHAR(60) NOT NULL,release_year INT NOT NULL,PRIMARY KEY(title));
 
 
-		INSERT INTO movies VALUE ("Joker", "psychological thriller", "Todd Phillips", 2019);
+		INSERT INTO movies VALUE ("DB1-Movies-Joker", "psychological thriller", "Todd Phillips", 2019);
 
 		SELECT * from movies;
+
+		create table property (id int(3) unsigned zerofill not null auto_increment primary key, name varchar(30) not null, address varchar(255) not null);
+
 —————————————————————————————————————————————————————-
 docker run --rm -d -e MYSQL_ROOT_PASSWORD=password -p 3326:3306 --name db2 mysql:5.7
 
@@ -35,7 +38,7 @@ docker run --rm -d -e MYSQL_ROOT_PASSWORD=password -p 3326:3306 --name db2 mysql
 		CREATE TABLE cinemas(title VARCHAR(50) NOT NULL,genre VARCHAR(30) NOT NULL,director VARCHAR(60) NOT NULL,release_year INT NOT NULL,PRIMARY KEY(title));
 
 
-		INSERT INTO cinemas VALUE ("Joker", "psychological thriller", "Todd Phillips", 2019);
+		INSERT INTO cinemas VALUE ("DB2-Cinemas-Joker", "psychological thriller", "Todd Phillips", 2019);
 
 		SELECT * from cinemas;
 

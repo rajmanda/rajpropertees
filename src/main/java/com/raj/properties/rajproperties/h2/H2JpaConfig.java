@@ -18,6 +18,9 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
@@ -52,6 +55,7 @@ public class H2JpaConfig {
                 .dataSource(h2DataSource)
                 .packages("com.raj.properties.rajproperties.h2.entities")
                 .persistenceUnit("h2")
+                .properties(hibernateProperties())
                 .build();
     }
 
@@ -67,5 +71,10 @@ public class H2JpaConfig {
     @Bean(name = "h2JdbcTemplate")
     public JdbcTemplate h2JdbcTemplate(@Qualifier("h2DataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+    private Map hibernateProperties() {
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        properties.put("hibernate.hbm2ddl.auto", "create");
+        return properties;
     }
 }
